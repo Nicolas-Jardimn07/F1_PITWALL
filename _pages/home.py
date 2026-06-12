@@ -402,6 +402,24 @@ def render():
 
     st.markdown("<br>", unsafe_allow_html=True)
 
+    # ── CSS: esconde os botões invisíveis que ficam sobre os cards
+    st.markdown("""
+    <style>
+    div[data-testid="stButton"] button p { font-size:0 !important; }
+    div[data-testid="stButton"] button {
+        background: transparent !important;
+        border: none !important;
+        box-shadow: none !important;
+        margin-top: -72px !important;
+        height: 72px !important;
+        opacity: 0 !important;
+        position: relative !important;
+        z-index: 10 !important;
+        cursor: pointer !important;
+    }
+    </style>
+    """, unsafe_allow_html=True)
+
     # ── Calendário clicável
     st.markdown("### 📅 2026 Season Calendar")
     st.caption("Clique em qualquer GP para ver os horários (🇧🇷 BRT) e resultado")
@@ -429,24 +447,21 @@ def render():
             if is_sprint else ""
         )
         with cal_cols[i % 4]:
-            if st.button(
-                f"R{rnd:02d} · {name}",
-                key=f"gp_{rnd}",
-                use_container_width=True,
-                help=f"Ver sessões de {name}",
-            ):
-                st.session_state.selected_gp = None if selected else name
-                st.rerun()
-
             st.markdown(f"""
-            <div style="background:{bg};{sel_style}border-radius:0 0 8px 8px;
-                        padding:.4rem .7rem .5rem;margin-top:-8px;{faded}">
-                <div style="font-size:.58rem;color:#6a6a8a;font-family:Share Tech Mono,monospace">{date_str}</div>
-                <div style="font-size:.72rem;font-weight:600;color:#c8c8d8;margin:.1rem 0">
-                    {circuit}{next_badge}{sprint_badge}
+            <div style="background:{bg};{sel_style}border-radius:8px;
+                        padding:.6rem .75rem;margin-bottom:.2rem;{faded}cursor:pointer;">
+                <div style="font-size:.58rem;color:#6a6a8a;font-family:Share Tech Mono,monospace">R{rnd:02d} · {date_str}</div>
+                <div style="font-size:.82rem;font-weight:700;color:#e8e8f0;line-height:1.25;margin:.2rem 0">
+                    {name}{next_badge}{sprint_badge}
                 </div>
+                <div style="font-size:.66rem;color:#5a5a7a">{circuit}</div>
             </div>
             """, unsafe_allow_html=True)
+            # Botão invisível sobre o card
+            if st.button("​", key=f"gp_{rnd}", use_container_width=True,
+                         help=f"Ver sessões de {name}"):
+                st.session_state.selected_gp = None if selected else name
+                st.rerun()
 
     # ── Painel de detalhes abaixo do calendário
     if st.session_state.selected_gp:
