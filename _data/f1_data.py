@@ -2,9 +2,24 @@
 #  DATA — FastF1 loaders + OpenF1 live API
 # ─────────────────────────────────────────────────────────────────────────────
 import os
+import asyncio
 import fastf1
 import requests
 import streamlit as st
+
+# Fix para Python 3.14+ onde o event loop do asyncio mudou
+try:
+    import nest_asyncio
+    nest_asyncio.apply()
+except ImportError:
+    pass
+
+# Workaround adicional para Python 3.14 asyncio
+try:
+    loop = asyncio.get_event_loop()
+except RuntimeError:
+    loop = asyncio.new_event_loop()
+    asyncio.set_event_loop(loop)
 
 CACHE_DIR   = "./f1_cache_local"
 OPENF1_BASE = "https://api.openf1.org/v1"
@@ -21,16 +36,14 @@ def load_session_f1(year: int, gp: str, stype: str):
     """Carrega e retorna uma Session FastF1 completa."""
     cache_key = f"f1sess_{year}_{gp}_{stype}"
 
-    # Já está no session_state e válida?
     if cache_key in st.session_state:
         sess = st.session_state[cache_key]
         try:
-            _ = sess.laps  # testa se dados estão disponíveis
+            _ = sess.laps
             return sess
         except Exception:
             del st.session_state[cache_key]
 
-    # Carrega do zero
     sess = fastf1.get_session(year, gp, stype)
     sess.load(telemetry=True, weather=True, messages=False)
     st.session_state[cache_key] = sess
