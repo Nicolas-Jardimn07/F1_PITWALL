@@ -2,9 +2,6 @@
 #  DATA — FastF1 loaders + OpenF1 live API
 # ─────────────────────────────────────────────────────────────────────────────
 import os
-import sys
-import asyncio
-import threading
 import fastf1
 import requests
 import streamlit as st
@@ -16,80 +13,39 @@ os.makedirs(CACHE_DIR, exist_ok=True)
 fastf1.Cache.enable_cache(CACHE_DIR)
 
 
-def _load_in_thread(year: int, gp: str, stype: str):
-    """
-    Roda sess.load() em uma thread separada com seu próprio event loop.
-    Workaround para Python 3.14 onde o asyncio mudou e quebra o FastF1.
-    """
-    result = {"sess": None, "error": None}
-
-    def worker():
-        # Cria um novo event loop isolado para esta thread
-        loop = asyncio.new_event_loop()
-        asyncio.set_event_loop(loop)
-        try:
-            sess = fastf1.get_session(year, gp, stype)
-            sess.load(telemetry=True, weather=True, messages=False)
-            result["sess"] = sess
-        except Exception as e:
-            result["error"] = e
-        finally:
-            loop.close()
-
-    t = threading.Thread(target=worker)
-    t.start()
-    t.join(timeout=120)  # timeout de 2 minutos
-
-    if t.is_alive():
-        raise RuntimeError("Timeout ao carregar sessão (>2 min). Tente novamente.")
-
-    if result["error"]:
-        raise result["error"]
-
-    if result["sess"] is None:
-        raise RuntimeError("Sessão não carregada — resultado vazio.")
-
-    return result["sess"]
-
-
 # ─────────────────────────────────────────────────────────────────────────────
 #  FastF1 — Historical
+#
+#  IMPORTANTE: load_session_f1 usa @st.cache_data — o objeto Session do
+#  FastF1 é serializado pelo Streamlit. As funções filhas recebem _sess
+#  (underscore) para que o Streamlit não tente fazer hash do objeto.
 # ─────────────────────────────────────────────────────────────────────────────
 
+@st.cache_data(show_spinner=False)
 def load_session_f1(year: int, gp: str, stype: str):
-    """Carrega e retorna uma Session FastF1 completa."""
-    cache_key = f"f1sess_{year}_{gp}_{stype}"
-
-    # Já no session_state e válida?
-    if cache_key in st.session_state:
-        sess = st.session_state[cache_key]
-        try:
-            _ = sess.laps
-            return sess
-        except Exception:
-            del st.session_state[cache_key]
-
-    # Carrega em thread separada (fix Python 3.14)
-    sess = _load_in_thread(year, gp, stype)
-    st.session_state[cache_key] = sess
+    sess = fastf1.get_session(year, gp, stype)
+    sess.load(telemetry=True, weather=True, messages=False)
     return sess
 
 
-def get_driver_list(sess) -> list:
-    return sorted(sess.laps["Driver"].unique().tolist())
+@st.cache_data(show_spinner=False)
+def get_driver_list(_sess) -> list:
+    return sorted(_sess.laps["Driver"].unique().tolist())
 
 
-def get_telemetry(sess, driver: str):
-    lap = sess.laps.pick_drivers(driver).pick_fastest()
+@st.cache_data(show_spinner=False)
+def get_telemetry(_sess, driver: str):
+    lap = _sess.laps.pick_drivers(driver).pick_fastest()
     tel = lap.get_telemetry().add_distance()
     return tel, lap
 
 
-def get_all_telemetry(sess, drivers: tuple) -> dict:
+@st.cache_data(show_spinner=False)
+def get_all_telemetry(_sess, drivers: tuple) -> dict:
     result = {}
     for drv in drivers:
         try:
-            lap = sess.laps.pick_drivers(drv).pick_fastest()
+            lap = _sess.laps.pick_drivers(drv).pick_fastest()
             tel = lap.get_telemetry().add_distance()
             tel["T"] = tel["Time"].dt.total_seconds()
             result[drv] = tel
