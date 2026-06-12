@@ -12,221 +12,221 @@ from _data.season_data import get_season_data
 GP_DETAILS = {
     "Australian GP": {
         "sessions": [
-            ("FP1",        "Fri 14 Mar", "11:30"),
-            ("FP2",        "Fri 14 Mar", "15:00"),
-            ("FP3",        "Sat 15 Mar", "11:30"),
-            ("Qualifying", "Sat 15 Mar", "15:00"),
-            ("Race",       "Sun 16 Mar", "15:00"),
+            ("FP1",        "Sex 14 Mar", "01:30"),
+            ("FP2",        "Sex 14 Mar", "05:00"),
+            ("FP3",        "Sáb 15 Mar", "01:30"),
+            ("Qualifying", "Sáb 15 Mar", "05:00"),
+            ("Race",       "Dom 16 Mar", "01:00"),
         ],
         "result": {"winner": "ANT", "p2": "RUS", "p3": "NOR", "fl": "ANT", "fl_time": "1:17.456"},
     },
     "Chinese GP": {
         "sessions": [
-            ("FP1",          "Fri 21 Mar", "11:30"),
-            ("Sprint Quali", "Fri 21 Mar", "15:30"),
-            ("Sprint",       "Sat 22 Mar", "11:00"),
-            ("Qualifying",   "Sat 22 Mar", "15:00"),
-            ("Race",         "Sun 23 Mar", "15:00"),
+            ("FP1",          "Sex 21 Mar", "00:30"),
+            ("Sprint Quali", "Sex 21 Mar", "04:30"),
+            ("Sprint",       "Sáb 22 Mar", "00:00"),
+            ("Qualifying",   "Sáb 22 Mar", "04:00"),
+            ("Race",         "Dom 23 Mar", "04:00"),
         ],
         "result": {"winner": "ANT", "p2": "RUS", "p3": "NOR", "fl": "ANT", "fl_time": "1:32.145"},
     },
     "Japanese GP": {
         "sessions": [
-            ("FP1",        "Fri 04 Apr", "11:30"),
-            ("FP2",        "Fri 04 Apr", "15:00"),
-            ("FP3",        "Sat 05 Apr", "11:30"),
-            ("Qualifying", "Sat 05 Apr", "15:00"),
-            ("Race",       "Sun 06 Apr", "14:00"),
+            ("FP1",        "Sex 04 Abr", "23:30"),
+            ("FP2",        "Sex 04 Abr", "03:00"),
+            ("FP3",        "Sáb 05 Abr", "23:30"),
+            ("Qualifying", "Dom 06 Abr", "03:00"),
+            ("Race",       "Dom 06 Abr", "02:00"),
         ],
         "result": {"winner": "ANT", "p2": "HAM", "p3": "LEC", "fl": "HAM", "fl_time": "1:30.983"},
     },
     "Miami GP": {
         "sessions": [
-            ("FP1",          "Fri 02 May", "12:30"),
-            ("Sprint Quali", "Fri 02 May", "16:30"),
-            ("Sprint",       "Sat 03 May", "12:00"),
-            ("Qualifying",   "Sat 03 May", "16:00"),
-            ("Race",         "Sun 04 May", "16:00"),
+            ("FP1",          "Sex 02 Mai", "13:30"),
+            ("Sprint Quali", "Sex 02 Mai", "17:30"),
+            ("Sprint",       "Sáb 03 Mai", "13:00"),
+            ("Qualifying",   "Sáb 03 Mai", "17:00"),
+            ("Race",         "Dom 04 Mai", "17:00"),
         ],
         "result": {"winner": "ANT", "p2": "PIA", "p3": "NOR", "fl": "RUS", "fl_time": "1:27.341"},
     },
     "Canadian GP": {
         "sessions": [
-            ("FP1",          "Fri 06 Jun", "13:30"),
-            ("Sprint Quali", "Fri 06 Jun", "17:30"),
-            ("Sprint",       "Sat 07 Jun", "13:00"),
-            ("Qualifying",   "Sat 07 Jun", "17:00"),
-            ("Race",         "Sun 08 Jun", "14:00"),
+            ("FP1",          "Sex 06 Jun", "14:30"),
+            ("Sprint Quali", "Sex 06 Jun", "18:30"),
+            ("Sprint",       "Sáb 07 Jun", "14:00"),
+            ("Qualifying",   "Sáb 07 Jun", "18:00"),
+            ("Race",         "Dom 08 Jun", "15:00"),
         ],
         "result": {"winner": "ANT", "p2": "RUS", "p3": "HAM", "fl": "ANT", "fl_time": "1:13.702"},
     },
     "Monaco GP": {
         "sessions": [
-            ("FP1",        "Thu 22 May", "11:30"),
-            ("FP2",        "Thu 22 May", "15:00"),
-            ("FP3",        "Sat 24 May", "11:30"),
-            ("Qualifying", "Sat 24 May", "15:00"),
-            ("Race",       "Sun 25 May", "15:00"),
+            ("FP1",        "Qui 22 Mai", "06:30"),
+            ("FP2",        "Qui 22 Mai", "10:00"),
+            ("FP3",        "Sáb 24 Mai", "06:30"),
+            ("Qualifying", "Sáb 24 Mai", "10:00"),
+            ("Race",       "Dom 25 Mai", "10:00"),
         ],
         "result": {"winner": "ANT", "p2": "HAM", "p3": "HAD", "fl": "ANT", "fl_time": "1:12.803"},
     },
     "Barcelona GP": {
         "sessions": [
-            ("FP1",        "Fri 12 Jun", "13:30"),
-            ("FP2",        "Fri 12 Jun", "17:00"),
-            ("FP3",        "Sat 13 Jun", "12:30"),
-            ("Qualifying", "Sat 13 Jun", "16:00"),
-            ("Race",       "Sun 14 Jun", "15:00"),
+            ("FP1",        "Sex 12 Jun", "08:30"),
+            ("FP2",        "Sex 12 Jun", "12:00"),
+            ("FP3",        "Sáb 13 Jun", "07:30"),
+            ("Qualifying", "Sáb 13 Jun", "11:00"),
+            ("Race",       "Dom 14 Jun", "10:00"),
         ],
         "result": None,
     },
     "Austrian GP": {
         "sessions": [
-            ("FP1",        "Fri 26 Jun", "13:30"),
-            ("FP2",        "Fri 26 Jun", "17:00"),
-            ("FP3",        "Sat 27 Jun", "12:30"),
-            ("Qualifying", "Sat 27 Jun", "16:00"),
-            ("Race",       "Sun 28 Jun", "15:00"),
+            ("FP1",        "Sex 26 Jun", "08:30"),
+            ("FP2",        "Sex 26 Jun", "12:00"),
+            ("FP3",        "Sáb 27 Jun", "07:30"),
+            ("Qualifying", "Sáb 27 Jun", "11:00"),
+            ("Race",       "Dom 28 Jun", "10:00"),
         ],
         "result": None,
     },
     "British GP": {
         "sessions": [
-            ("FP1",          "Fri 03 Jul", "13:30"),
-            ("Sprint Quali", "Fri 03 Jul", "17:30"),
-            ("Sprint",       "Sat 04 Jul", "12:30"),
-            ("Qualifying",   "Sat 04 Jul", "16:00"),
-            ("Race",         "Sun 05 Jul", "15:00"),
+            ("FP1",          "Sex 03 Jul", "09:30"),
+            ("Sprint Quali", "Sex 03 Jul", "13:30"),
+            ("Sprint",       "Sáb 04 Jul", "08:30"),
+            ("Qualifying",   "Sáb 04 Jul", "12:00"),
+            ("Race",         "Dom 05 Jul", "11:00"),
         ],
         "result": None,
     },
     "Belgian GP": {
         "sessions": [
-            ("FP1",        "Fri 17 Jul", "13:30"),
-            ("FP2",        "Fri 17 Jul", "17:00"),
-            ("FP3",        "Sat 18 Jul", "12:30"),
-            ("Qualifying", "Sat 18 Jul", "16:00"),
-            ("Race",       "Sun 19 Jul", "15:00"),
+            ("FP1",        "Sex 17 Jul", "08:30"),
+            ("FP2",        "Sex 17 Jul", "12:00"),
+            ("FP3",        "Sáb 18 Jul", "07:30"),
+            ("Qualifying", "Sáb 18 Jul", "11:00"),
+            ("Race",       "Dom 19 Jul", "10:00"),
         ],
         "result": None,
     },
     "Hungarian GP": {
         "sessions": [
-            ("FP1",        "Fri 24 Jul", "13:30"),
-            ("FP2",        "Fri 24 Jul", "17:00"),
-            ("FP3",        "Sat 25 Jul", "12:30"),
-            ("Qualifying", "Sat 25 Jul", "16:00"),
-            ("Race",       "Sun 26 Jul", "15:00"),
+            ("FP1",        "Sex 24 Jul", "08:30"),
+            ("FP2",        "Sex 24 Jul", "12:00"),
+            ("FP3",        "Sáb 25 Jul", "07:30"),
+            ("Qualifying", "Sáb 25 Jul", "11:00"),
+            ("Race",       "Dom 26 Jul", "10:00"),
         ],
         "result": None,
     },
     "Dutch GP": {
         "sessions": [
-            ("FP1",          "Fri 21 Aug", "12:30"),
-            ("Sprint Quali", "Fri 21 Aug", "16:30"),
-            ("Sprint",       "Sat 22 Aug", "12:00"),
-            ("Qualifying",   "Sat 22 Aug", "16:00"),
-            ("Race",         "Sun 23 Aug", "15:00"),
+            ("FP1",          "Sex 21 Ago", "07:30"),
+            ("Sprint Quali", "Sex 21 Ago", "11:30"),
+            ("Sprint",       "Sáb 22 Ago", "07:00"),
+            ("Qualifying",   "Sáb 22 Ago", "11:00"),
+            ("Race",         "Dom 23 Ago", "10:00"),
         ],
         "result": None,
     },
     "Italian GP": {
         "sessions": [
-            ("FP1",        "Fri 04 Sep", "13:30"),
-            ("FP2",        "Fri 04 Sep", "17:00"),
-            ("FP3",        "Sat 05 Sep", "12:30"),
-            ("Qualifying", "Sat 05 Sep", "16:00"),
-            ("Race",       "Sun 06 Sep", "15:00"),
+            ("FP1",        "Sex 04 Set", "08:30"),
+            ("FP2",        "Sex 04 Set", "12:00"),
+            ("FP3",        "Sáb 05 Set", "07:30"),
+            ("Qualifying", "Sáb 05 Set", "11:00"),
+            ("Race",       "Dom 06 Set", "10:00"),
         ],
         "result": None,
     },
     "Madrid GP": {
         "sessions": [
-            ("FP1",        "Fri 11 Sep", "13:30"),
-            ("FP2",        "Fri 11 Sep", "17:00"),
-            ("FP3",        "Sat 12 Sep", "12:30"),
-            ("Qualifying", "Sat 12 Sep", "16:00"),
-            ("Race",       "Sun 13 Sep", "15:00"),
+            ("FP1",        "Sex 11 Set", "08:30"),
+            ("FP2",        "Sex 11 Set", "12:00"),
+            ("FP3",        "Sáb 12 Set", "07:30"),
+            ("Qualifying", "Sáb 12 Set", "11:00"),
+            ("Race",       "Dom 13 Set", "10:00"),
         ],
         "result": None,
     },
     "Azerbaijan GP": {
         "sessions": [
-            ("FP1",        "Fri 25 Sep", "13:30"),
-            ("FP2",        "Fri 25 Sep", "17:00"),
-            ("FP3",        "Sat 26 Sep", "12:30"),
-            ("Qualifying", "Sat 26 Sep", "16:00"),
-            ("Race",       "Sun 27 Sep", "14:00"),
+            ("FP1",        "Sex 25 Set", "06:30"),
+            ("FP2",        "Sex 25 Set", "10:00"),
+            ("FP3",        "Sáb 26 Set", "05:30"),
+            ("Qualifying", "Sáb 26 Set", "09:00"),
+            ("Race",       "Dom 27 Set", "07:00"),
         ],
         "result": None,
     },
     "Singapore GP": {
         "sessions": [
-            ("FP1",          "Fri 09 Oct", "17:30"),
-            ("Sprint Quali", "Fri 09 Oct", "21:30"),
-            ("Sprint",       "Sat 10 Oct", "17:00"),
-            ("Qualifying",   "Sat 10 Oct", "21:00"),
-            ("Race",         "Sun 11 Oct", "20:00"),
+            ("FP1",          "Sex 09 Out", "06:30"),
+            ("Sprint Quali", "Sex 09 Out", "10:30"),
+            ("Sprint",       "Sáb 10 Out", "06:00"),
+            ("Qualifying",   "Sáb 10 Out", "10:00"),
+            ("Race",         "Dom 11 Out", "09:00"),
         ],
         "result": None,
     },
     "United States GP": {
         "sessions": [
-            ("FP1",        "Fri 23 Oct", "19:30"),
-            ("FP2",        "Fri 23 Oct", "23:00"),
-            ("FP3",        "Sat 24 Oct", "19:30"),
-            ("Qualifying", "Sat 24 Oct", "23:00"),
-            ("Race",       "Sun 25 Oct", "21:00"),
+            ("FP1",        "Sex 23 Out", "21:30"),
+            ("FP2",        "Sex 23 Out", "01:00"),
+            ("FP3",        "Sáb 24 Out", "21:30"),
+            ("Qualifying", "Dom 25 Out", "01:00"),
+            ("Race",       "Dom 25 Out", "23:00"),
         ],
         "result": None,
     },
     "Mexico City GP": {
         "sessions": [
-            ("FP1",        "Fri 30 Oct", "19:30"),
-            ("FP2",        "Fri 30 Oct", "23:00"),
-            ("FP3",        "Sat 31 Oct", "18:30"),
-            ("Qualifying", "Sat 31 Oct", "22:00"),
-            ("Race",       "Sun 01 Nov", "21:00"),
+            ("FP1",        "Sex 30 Out", "21:30"),
+            ("FP2",        "Sex 30 Out", "01:00"),
+            ("FP3",        "Sáb 31 Out", "20:30"),
+            ("Qualifying", "Dom 01 Nov", "00:00"),
+            ("Race",       "Dom 01 Nov", "23:00"),
         ],
         "result": None,
     },
     "São Paulo GP": {
         "sessions": [
-            ("FP1",        "Fri 06 Nov", "15:30"),
-            ("FP2",        "Fri 06 Nov", "19:00"),
-            ("FP3",        "Sat 07 Nov", "14:30"),
-            ("Qualifying", "Sat 07 Nov", "18:00"),
-            ("Race",       "Sun 08 Nov", "17:00"),
+            ("FP1",        "Sex 06 Nov", "15:30"),
+            ("FP2",        "Sex 06 Nov", "19:00"),
+            ("FP3",        "Sáb 07 Nov", "14:30"),
+            ("Qualifying", "Sáb 07 Nov", "18:00"),
+            ("Race",       "Dom 08 Nov", "17:00"),
         ],
         "result": None,
     },
     "Las Vegas GP": {
         "sessions": [
-            ("FP1",        "Thu 19 Nov", "04:30"),
-            ("FP2",        "Thu 19 Nov", "08:00"),
-            ("FP3",        "Fri 20 Nov", "04:30"),
-            ("Qualifying", "Fri 20 Nov", "08:00"),
-            ("Race",       "Sat 21 Nov", "06:00"),
+            ("FP1",        "Qui 19 Nov", "09:30"),
+            ("FP2",        "Qui 19 Nov", "13:00"),
+            ("FP3",        "Sex 20 Nov", "09:30"),
+            ("Qualifying", "Sex 20 Nov", "13:00"),
+            ("Race",       "Sáb 21 Nov", "11:00"),
         ],
         "result": None,
     },
     "Qatar GP": {
         "sessions": [
-            ("FP1",        "Fri 27 Nov", "17:30"),
-            ("FP2",        "Fri 27 Nov", "21:00"),
-            ("FP3",        "Sat 28 Nov", "17:30"),
-            ("Qualifying", "Sat 28 Nov", "21:00"),
-            ("Race",       "Sun 29 Nov", "18:00"),
+            ("FP1",        "Sex 27 Nov", "11:30"),
+            ("FP2",        "Sex 27 Nov", "15:00"),
+            ("FP3",        "Sáb 28 Nov", "11:30"),
+            ("Qualifying", "Sáb 28 Nov", "15:00"),
+            ("Race",       "Dom 29 Nov", "12:00"),
         ],
         "result": None,
     },
     "Abu Dhabi GP": {
         "sessions": [
-            ("FP1",        "Fri 04 Dec", "13:30"),
-            ("FP2",        "Fri 04 Dec", "17:00"),
-            ("FP3",        "Sat 05 Dec", "13:30"),
-            ("Qualifying", "Sat 05 Dec", "17:00"),
-            ("Race",       "Sun 06 Dec", "17:00"),
+            ("FP1",        "Sex 04 Dez", "06:30"),
+            ("FP2",        "Sex 04 Dez", "10:00"),
+            ("FP3",        "Sáb 05 Dez", "06:30"),
+            ("Qualifying", "Sáb 05 Dez", "10:00"),
+            ("Race",       "Dom 06 Dez", "10:00"),
         ],
         "result": None,
     },
@@ -404,147 +404,88 @@ def render():
 
     # ── Calendário clicável
     st.markdown("### 📅 2026 Season Calendar")
-    st.caption("Clique em qualquer GP para ver os horários das sessões e o resultado")
-
-    # Estado do GP selecionado
-    if "selected_gp" not in st.session_state:
-        st.session_state.selected_gp = None
+    st.caption("Clique no GP para ver horários (horário de Brasília — BRT) e resultado")
 
     cal_cols = st.columns(4)
     for i, (rnd, name, circuit, date_str, status, is_sprint) in enumerate(_cal):
-        border = "#e10600" if status == "next" else "#2a2a3a" if status == "done" else "#1e1e30"
-        bg     = "#0d0d18" if status == "next" else "#08080e" if status == "done" else "#0a0a14"
-        txt_op = "opacity:.5" if status == "done" else ""
-        next_badge = (
-            '<span style="background:#e10600;color:#fff;font-size:.48rem;font-weight:700;'
-            'padding:1px 5px;border-radius:8px;margin-left:.3rem">NEXT</span>'
-            if status == "next" else
-            '<span style="color:#3a3a5a;font-size:.6rem"> ✓</span>'
-            if status == "done" else ""
-        )
-        sprint_badge = (
-            '<span style="background:rgba(255,215,0,.15);color:#ffd700;font-size:.44rem;'
-            'font-weight:700;padding:1px 4px;border-radius:6px;margin-left:.2rem">★ S</span>'
-            if is_sprint else ""
-        )
-        selected = st.session_state.selected_gp == name
-        sel_border = "2px solid #e10600" if selected else f"1px solid {border}"
-
+        sprint_label = " ★S" if is_sprint else ""
+        status_icon  = " ✓" if status == "done" else " ▶" if status == "next" else ""
+        label = f"R{rnd:02d} · {name}{sprint_label}{status_icon}"
         with cal_cols[i % 4]:
-            st.markdown(f"""
-            <div style="background:{bg};border:{sel_border};border-radius:8px;
-                        padding:.55rem .7rem;margin-bottom:.5rem;{txt_op}">
-                <div style="font-size:.55rem;color:#6a6a8a;font-family:Share Tech Mono,monospace">R{rnd:02d} · {date_str}</div>
-                <div style="font-size:.8rem;font-weight:700;color:#e8e8f0;line-height:1.25;margin:.15rem 0">
-                    {name}{next_badge}{sprint_badge}
-                </div>
-                <div style="font-size:.62rem;color:#4a4a6a">{circuit}</div>
-            </div>
-            """, unsafe_allow_html=True)
-
-            if st.button("📋", key=f"gp_{rnd}", help=f"Ver sessões de {name}", use_container_width=True):
-                if st.session_state.selected_gp == name:
-                    st.session_state.selected_gp = None
-                else:
-                    st.session_state.selected_gp = name
-                st.rerun()
-
-    # ── Painel de detalhes do GP selecionado
-    if st.session_state.selected_gp:
-        _render_gp_detail(st.session_state.selected_gp, _cal)
+            with st.expander(label, expanded=False):
+                _render_gp_detail_inline(name, status, date_str, circuit)
 
 
-def _render_gp_detail(gp_name: str, cal: list):
-    """Mostra horários e resultado do GP selecionado."""
+
+def _render_gp_detail_inline(gp_name: str, status: str, date_str: str, circuit: str):
+    """Conteúdo do expander: horários + resultado."""
     details = GP_DETAILS.get(gp_name)
 
-    # Encontra info do GP no calendário
-    gp_info = next((r for r in cal if r[1] == gp_name), None)
-    if not gp_info:
-        return
-
-    rnd, name, circuit, date_str, status, is_sprint = gp_info
-
-    st.markdown("---")
-    st.markdown(f"### 📋 {name} — Round {rnd}")
-    st.caption(f"{circuit} · {date_str}")
+    st.markdown(f"""
+    <div style="font-size:.72rem;color:#6a6a8a;margin-bottom:.6rem">
+        📍 {circuit} &nbsp;·&nbsp; 📅 {date_str}
+    </div>
+    """, unsafe_allow_html=True)
 
     if not details:
-        st.info("Detalhes das sessões não disponíveis ainda.")
+        st.info("Detalhes ainda não disponíveis.")
         return
 
-    col_sess, col_result = st.columns([3, 2])
-
-    with col_sess:
-        st.markdown("#### 🕐 Horários das Sessões")
-        st.caption("Horário local do circuito")
-
-        for session_name, day, time_local in details["sessions"]:
-            icon  = SESSION_ICONS.get(session_name, "⚪")
-            color = SESSION_COLORS.get(session_name, "#ffffff")
-            is_race = session_name == "Race"
-            bg = "rgba(225,6,0,.08)" if is_race else "rgba(255,255,255,.03)"
-            border_left = f"3px solid {color}"
-
-            st.markdown(f"""
-            <div style="background:{bg};border:1px solid #1e1e2e;border-left:{border_left};
-                        border-radius:6px;padding:.55rem .9rem;margin-bottom:.4rem;
-                        display:flex;justify-content:space-between;align-items:center">
-                <div>
-                    <span style="font-size:.85rem">{icon}</span>
-                    <span style="font-weight:700;color:{color};font-size:.9rem;margin-left:.4rem">{session_name}</span>
-                    <span style="color:#5a5a7a;font-size:.75rem;margin-left:.5rem">{day}</span>
-                </div>
-                <div style="font-family:Share Tech Mono,monospace;font-size:.95rem;color:#fff">{time_local}</div>
+    # ── Sessões
+    for session_name, day, time_local in details["sessions"]:
+        icon  = SESSION_ICONS.get(session_name, "⚪")
+        color = SESSION_COLORS.get(session_name, "#ffffff")
+        is_race = session_name == "Race"
+        bg = "rgba(225,6,0,.08)" if is_race else "rgba(255,255,255,.02)"
+        st.markdown(f"""
+        <div style="background:{bg};border-left:3px solid {color};border-radius:0 5px 5px 0;
+                    padding:.4rem .75rem;margin-bottom:.3rem;
+                    display:flex;justify-content:space-between;align-items:center">
+            <div>
+                <span>{icon}</span>
+                <span style="font-weight:700;color:{color};font-size:.85rem;margin-left:.35rem">{session_name}</span>
+                <span style="color:#4a4a6a;font-size:.72rem;margin-left:.4rem">{day}</span>
             </div>
-            """, unsafe_allow_html=True)
+            <div style="font-family:Share Tech Mono,monospace;font-size:.9rem;color:#fff">{time_local}</div>
+        </div>
+        """, unsafe_allow_html=True)
 
-    with col_result:
-        result = details.get("result")
-        if status == "done" and result:
-            st.markdown("#### 🏆 Resultado")
-            podium = [
-                (result["winner"], "🥇 P1", DRIVER_COLORS.get(result["winner"], "#ffd700")),
-                (result["p2"],     "🥈 P2", DRIVER_COLORS.get(result["p2"],     "#c0c0c0")),
-                (result["p3"],     "🥉 P3", DRIVER_COLORS.get(result["p3"],     "#cd7f32")),
-            ]
-            for drv, label, dclr in podium:
-                team = DRIVER_TEAMS.get(drv, "")
-                st.markdown(f"""
-                <div style="background:#0d0d18;border:1px solid #1e1e30;border-left:3px solid {dclr};
-                            border-radius:8px;padding:.6rem .9rem;margin-bottom:.4rem;
-                            display:flex;align-items:center;gap:.75rem">
-                    <div style="font-size:1.1rem">{label}</div>
-                    <div>
-                        <div style="font-family:Share Tech Mono,monospace;font-size:1rem;font-weight:700;color:{dclr}">{drv}</div>
-                        <div style="font-size:.68rem;color:#5a5a7a">{team}</div>
-                    </div>
-                </div>
-                """, unsafe_allow_html=True)
-
-            st.markdown(f"""
-            <div style="background:#0a0a14;border:1px solid #1e1e30;border-radius:6px;
-                        padding:.55rem .9rem;margin-top:.2rem">
-                <span style="color:#a020f0;font-size:.7rem;font-weight:700">⚡ FASTEST LAP</span>
-                <span style="font-family:Share Tech Mono,monospace;font-size:.85rem;color:#fff;margin-left:.5rem">
-                    {result["fl"]} {result["fl_time"]}
-                </span>
+    # ── Resultado (só GPs passados)
+    result = details.get("result")
+    if status == "done" and result:
+        st.markdown("<div style='margin-top:.8rem'></div>", unsafe_allow_html=True)
+        st.markdown("**🏆 Resultado**")
+        podium = [
+            (result["winner"], "🥇", DRIVER_COLORS.get(result["winner"], "#ffd700")),
+            (result["p2"],     "🥈", DRIVER_COLORS.get(result["p2"],     "#c0c0c0")),
+            (result["p3"],     "🥉", DRIVER_COLORS.get(result["p3"],     "#cd7f32")),
+        ]
+        podium_html = ""
+        for drv, medal, dclr in podium:
+            team = DRIVER_TEAMS.get(drv, "")
+            podium_html += f"""
+            <div style="display:flex;align-items:center;gap:.5rem;margin-bottom:.3rem">
+                <span style="font-size:.9rem">{medal}</span>
+                <span style="font-family:Share Tech Mono,monospace;font-weight:700;
+                             color:{dclr};font-size:.95rem">{drv}</span>
+                <span style="font-size:.68rem;color:#5a5a7a">{team}</span>
+            </div>"""
+        st.markdown(f"""
+        <div style="background:#0d0d18;border:1px solid #1e1e2e;border-radius:8px;padding:.7rem .9rem;margin-bottom:.4rem">
+            {podium_html}
+            <div style="border-top:1px solid #1e1e2e;margin-top:.4rem;padding-top:.4rem;
+                        font-size:.78rem;color:#7a7a9a">
+                ⚡ <span style="color:#a020f0;font-weight:700">FL</span>
+                &nbsp;{result["fl"]}
+                <span style="font-family:Share Tech Mono,monospace;color:#fff;margin-left:.3rem">{result["fl_time"]}</span>
             </div>
-            """, unsafe_allow_html=True)
+        </div>
+        """, unsafe_allow_html=True)
 
-        elif status in ("next", "upcoming"):
-            st.markdown("#### ⏳ Aguardando")
-            st.markdown(f"""
-            <div style="background:#0d0d18;border:1px solid #1e1e30;border-radius:10px;
-                        padding:1.5rem;text-align:center;margin-top:.5rem">
-                <div style="font-size:2rem">🏎️</div>
-                <div style="color:#6a6a8a;font-size:.85rem;margin-top:.5rem">
-                    Resultado disponível<br>após a corrida
-                </div>
-                {"<div style='margin-top:.75rem'><span style=\"background:#e10600;color:#fff;font-size:.65rem;font-weight:700;padding:3px 10px;border-radius:10px;letter-spacing:1px\">NEXT RACE</span></div>" if status == "next" else ""}
-            </div>
-            """, unsafe_allow_html=True)
-
-    if st.button("✕ Fechar", key="close_detail"):
-        st.session_state.selected_gp = None
-        st.rerun()
+    elif status in ("next", "upcoming"):
+        st.markdown(f"""
+        <div style="text-align:center;padding:.8rem;color:#4a4a6a;font-size:.8rem;margin-top:.5rem">
+            🏎️ &nbsp; Resultado disponível após a corrida
+            {"<br><br><span style='background:#e10600;color:#fff;font-size:.65rem;font-weight:700;padding:2px 10px;border-radius:8px'>NEXT RACE</span>" if status == "next" else ""}
+        </div>
+        """, unsafe_allow_html=True)
