@@ -17,10 +17,6 @@ fastf1.Cache.enable_cache(CACHE_DIR)
  
 # ─────────────────────────────────────────────────────────────────────────────
 #  FastF1 — Historical
-#
-#  IMPORTANTE: usar @st.cache_resource (não @st.cache_data) para objetos
-#  FastF1 Session — o cache_data tenta serializar o objeto e perde os dados
-#  carregados. O cache_resource mantém o objeto vivo em memória.
 # ─────────────────────────────────────────────────────────────────────────────
  
 @st.cache_resource(show_spinner=False)
@@ -32,19 +28,22 @@ def load_session_f1(year: int, gp: str, stype: str):
  
  
 def get_driver_list(sess) -> list:
-    """Retorna lista ordenada de drivers na sessão."""
-    return sorted(sess.laps["Driver"].unique().tolist())
+    try:
+        return sorted(sess.laps["Driver"].unique().tolist())
+    except Exception as e:
+        raise RuntimeError(f"get_driver_list falhou: {e}") from e
  
  
 def get_telemetry(sess, driver: str):
-    """Retorna telemetria da volta mais rápida do driver."""
-    lap = sess.laps.pick_drivers(driver).pick_fastest()
-    tel = lap.get_telemetry().add_distance()
-    return tel, lap
+    try:
+        lap = sess.laps.pick_drivers(driver).pick_fastest()
+        tel = lap.get_telemetry().add_distance()
+        return tel, lap
+    except Exception as e:
+        raise RuntimeError(f"get_telemetry falhou para {driver}: {e}") from e
  
  
 def get_all_telemetry(sess, drivers: tuple) -> dict:
-    """Carrega telemetria GPS para todos os drivers. Adiciona coluna 'T' (segundos)."""
     result = {}
     for drv in drivers:
         try:
@@ -62,7 +61,6 @@ def get_all_telemetry(sess, drivers: tuple) -> dict:
 # ─────────────────────────────────────────────────────────────────────────────
  
 def openf1_get(endpoint: str, params: dict = None, timeout: int = 8) -> list:
-    """Generic OpenF1 GET — returns list, empty list on any error."""
     try:
         r = requests.get(
             f"{OPENF1_BASE}/{endpoint}",
