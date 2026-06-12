@@ -18,10 +18,9 @@ from _components.charts import (
 
 
 def render(year: int, gp_name: str, session_type: str, session_code: str, analyze: bool):
-    # ── Reset state when the GP/session selection changes
+    # ── Reset drivers list when selection changes
     cur_sel = (year, gp_name, session_code)
     if st.session_state.last_selection != cur_sel:
-        st.session_state.session        = None
         st.session_state.drivers        = []
         st.session_state.last_selection = cur_sel
         st.session_state.replay_playing = False
@@ -29,21 +28,24 @@ def render(year: int, gp_name: str, session_type: str, session_code: str, analyz
 
     # ── Load session on button click
     if analyze:
-        with st.spinner(f"⏳ Loading {gp_name} {year} — {session_type}..."):
+        with st.spinner(f"⏳ Carregando {gp_name} {year} — {session_type}... (pode levar alguns minutos)"):
             try:
+                # load_session_f1 usa st.session_state internamente como cache
                 sess = load_session_f1(year, gp_name, session_code)
-                st.session_state.session = sess
-                st.session_state.drivers = get_driver_list(sess)
-                st.success(f"✅ Session loaded — {len(st.session_state.drivers)} drivers available.")
+                drivers_list = get_driver_list(sess)
+                st.session_state.drivers = drivers_list
+                st.success(f"✅ Sessão carregada — {len(drivers_list)} pilotos disponíveis.")
             except Exception as e:
-                st.error(f"❌ Failed to load session: {e}")
+                st.error(f"❌ Falha ao carregar sessão: {e}")
                 return
 
-    if st.session_state.session is None:
+    # ── Verifica se a sessão está disponível (via session_state interno do f1_data)
+    cache_key = f"f1sess_{year}_{gp_name}_{session_code}"
+    if cache_key not in st.session_state or not st.session_state.drivers:
         _splash()
         return
 
-    session   = st.session_state.session
+    session   = st.session_state[cache_key]
     available = st.session_state.drivers
     if not available:
         st.error("No drivers found in this session.")

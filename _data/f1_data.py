@@ -4,7 +4,6 @@
 # ─────────────────────────────────────────────────────────────────────────────
 import os
 import fastf1
-import pandas as pd
 import requests
 import streamlit as st
  
@@ -17,30 +16,42 @@ fastf1.Cache.enable_cache(CACHE_DIR)
  
 # ─────────────────────────────────────────────────────────────────────────────
 #  FastF1 — Historical
+#  Sessão guardada no st.session_state para evitar problemas de serialização
+#  com cache_data / cache_resource no Streamlit Cloud.
 # ─────────────────────────────────────────────────────────────────────────────
  
-@st.cache_resource(show_spinner=False)
 def load_session_f1(year: int, gp: str, stype: str):
-    """Carrega e retorna uma Session FastF1 completa com telemetria."""
+    """
+    Carrega uma Session FastF1 e guarda no session_state.
+    Retorna a sessão já carregada.
+    """
+    cache_key = f"f1sess_{year}_{gp}_{stype}"
+ 
+    # Já carregada e validada? Retorna direto.
+    if cache_key in st.session_state:
+        sess = st.session_state[cache_key]
+        # Verifica se os dados ainda estão disponíveis
+        try:
+            _ = sess.laps
+            return sess
+        except Exception:
+            pass  # Dados perdidos — recarrega abaixo
+ 
+    # Carrega do FastF1
     sess = fastf1.get_session(year, gp, stype)
     sess.load(telemetry=True, weather=True, messages=False)
+    st.session_state[cache_key] = sess
     return sess
  
  
 def get_driver_list(sess) -> list:
-    try:
-        return sorted(sess.laps["Driver"].unique().tolist())
-    except Exception as e:
-        raise RuntimeError(f"get_driver_list falhou: {e}") from e
+    return sorted(sess.laps["Driver"].unique().tolist())
  
  
 def get_telemetry(sess, driver: str):
-    try:
-        lap = sess.laps.pick_drivers(driver).pick_fastest()
-        tel = lap.get_telemetry().add_distance()
-        return tel, lap
-    except Exception as e:
-        raise RuntimeError(f"get_telemetry falhou para {driver}: {e}") from e
+    lap = sess.laps.pick_drivers(driver).pick_fastest()
+    tel = lap.get_telemetry().add_distance()
+    return tel, lap
  
  
 def get_all_telemetry(sess, drivers: tuple) -> dict:
