@@ -29,17 +29,31 @@ def render(year: int, gp_name: str, session_type: str, session_code: str, analyz
 
     # ── Load session on button click
     if analyze:
-        with st.spinner(f"⏳ Carregando {gp_name} {year} — {session_type}..."):
+        with st.spinner(f"⏳ Carregando {gp_name} {year} — {session_type}... (pode levar 1-2 min)"):
             try:
                 sess = load_session_f1(year, gp_name, session_code)
-                st.session_state.session = sess
-                st.session_state.drivers = get_driver_list(sess)
+                # Guarda a sessão E os drivers no session_state
+                # Não usa cache do Streamlit — objeto não é serializável no Cloud
+                st.session_state.session        = sess
+                st.session_state.drivers        = get_driver_list(sess)
+                st.session_state.last_selection = cur_sel
                 st.success(f"✅ Sessão carregada — {len(st.session_state.drivers)} pilotos disponíveis.")
             except Exception as e:
                 st.error(f"❌ Falha ao carregar sessão: {e}")
                 return
 
+    # ── Sessão não carregada ainda
     if st.session_state.session is None:
+        _splash()
+        return
+
+    # ── Valida que os dados ainda estão disponíveis (segurança extra)
+    try:
+        _ = st.session_state.session.laps
+    except Exception:
+        st.warning("⚠️ Sessão expirou. Clique em **▶ ANALYZE** novamente para recarregar.")
+        st.session_state.session = None
+        st.session_state.drivers = []
         _splash()
         return
 

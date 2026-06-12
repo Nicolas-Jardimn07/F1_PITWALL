@@ -16,36 +16,35 @@ fastf1.Cache.enable_cache(CACHE_DIR)
 # ─────────────────────────────────────────────────────────────────────────────
 #  FastF1 — Historical
 #
-#  IMPORTANTE: load_session_f1 usa @st.cache_data — o objeto Session do
-#  FastF1 é serializado pelo Streamlit. As funções filhas recebem _sess
-#  (underscore) para que o Streamlit não tente fazer hash do objeto.
+#  SEM @st.cache_data — o objeto Session não sobrevive à serialização do
+#  Streamlit Cloud (Python 3.14). A sessão fica no st.session_state.
 # ─────────────────────────────────────────────────────────────────────────────
 
-@st.cache_data(show_spinner=False)
 def load_session_f1(year: int, gp: str, stype: str):
+    """
+    Carrega a sessão FastF1 e retorna o objeto Session.
+    O cache é feito externamente pelo historical.py via st.session_state.
+    """
     sess = fastf1.get_session(year, gp, stype)
     sess.load(telemetry=True, weather=True, messages=False)
     return sess
 
 
-@st.cache_data(show_spinner=False)
-def get_driver_list(_sess) -> list:
-    return sorted(_sess.laps["Driver"].unique().tolist())
+def get_driver_list(sess) -> list:
+    return sorted(sess.laps["Driver"].unique().tolist())
 
 
-@st.cache_data(show_spinner=False)
-def get_telemetry(_sess, driver: str):
-    lap = _sess.laps.pick_drivers(driver).pick_fastest()
+def get_telemetry(sess, driver: str):
+    lap = sess.laps.pick_drivers(driver).pick_fastest()
     tel = lap.get_telemetry().add_distance()
     return tel, lap
 
 
-@st.cache_data(show_spinner=False)
-def get_all_telemetry(_sess, drivers: tuple) -> dict:
+def get_all_telemetry(sess, drivers: tuple) -> dict:
     result = {}
     for drv in drivers:
         try:
-            lap = _sess.laps.pick_drivers(drv).pick_fastest()
+            lap = sess.laps.pick_drivers(drv).pick_fastest()
             tel = lap.get_telemetry().add_distance()
             tel["T"] = tel["Time"].dt.total_seconds()
             result[drv] = tel
