@@ -519,37 +519,42 @@ def _render_gp_detail_inline(gp_name: str, status: str, date_str: str, circuit: 
     if status == "done" and result:
         st.markdown("<div style='margin-top:.8rem'></div>", unsafe_allow_html=True)
         st.markdown("**🏆 Resultado**")
-        podium = [
-            (result["winner"], "🥇", DRIVER_COLORS.get(result["winner"], "#ffd700")),
-            (result["p2"],     "🥈", DRIVER_COLORS.get(result["p2"],     "#c0c0c0")),
-            (result["p3"],     "🥉", DRIVER_COLORS.get(result["p3"],     "#cd7f32")),
-        ]
-        podium_html = ""
-        for drv, medal, dclr in podium:
-            team = DRIVER_TEAMS.get(drv, "")
-            podium_html += f"""
-            <div style="display:flex;align-items:center;gap:.5rem;margin-bottom:.3rem">
-                <span style="font-size:.9rem">{medal}</span>
-                <span style="font-family:Share Tech Mono,monospace;font-weight:700;
-                             color:{dclr};font-size:.95rem">{drv}</span>
-                <span style="font-size:.68rem;color:#5a5a7a">{team}</span>
-            </div>"""
-        st.markdown(f"""
-        <div style="background:#0d0d18;border:1px solid #1e1e2e;border-radius:8px;padding:.7rem .9rem;margin-bottom:.4rem">
-            {podium_html}
-            <div style="border-top:1px solid #1e1e2e;margin-top:.4rem;padding-top:.4rem;
-                        font-size:.78rem;color:#7a7a9a">
-                ⚡ <span style="color:#a020f0;font-weight:700">FL</span>
-                &nbsp;{result["fl"]}
-                <span style="font-family:Share Tech Mono,monospace;color:#fff;margin-left:.3rem">{result["fl_time"]}</span>
-            </div>
-        </div>
-        """, unsafe_allow_html=True)
+
+        w   = result["winner"];  wc = DRIVER_COLORS.get(w,  "#ffd700"); wt = DRIVER_TEAMS.get(w,  "")
+        p2  = result["p2"];      p2c= DRIVER_COLORS.get(p2, "#c0c0c0"); p2t= DRIVER_TEAMS.get(p2, "")
+        p3  = result["p3"];      p3c= DRIVER_COLORS.get(p3, "#cd7f32"); p3t= DRIVER_TEAMS.get(p3, "")
+        fl  = result["fl"];      flt= result["fl_time"]
+
+        html = (
+            "<div style='background:#0d0d18;border:1px solid #1e1e2e;border-radius:8px;"
+            "padding:.7rem .9rem;margin-bottom:.4rem'>"
+            "<div style='display:flex;align-items:center;gap:.5rem;margin-bottom:.3rem'>"
+            "<span style='font-size:.9rem'>🥇</span>"
+            f"<span style='font-family:Share Tech Mono,monospace;font-weight:700;color:{wc};font-size:.95rem'>{w}</span>"
+            f"<span style='font-size:.68rem;color:#5a5a7a'>{wt}</span></div>"
+            "<div style='display:flex;align-items:center;gap:.5rem;margin-bottom:.3rem'>"
+            "<span style='font-size:.9rem'>🥈</span>"
+            f"<span style='font-family:Share Tech Mono,monospace;font-weight:700;color:{p2c};font-size:.95rem'>{p2}</span>"
+            f"<span style='font-size:.68rem;color:#5a5a7a'>{p2t}</span></div>"
+            "<div style='display:flex;align-items:center;gap:.5rem;margin-bottom:.3rem'>"
+            "<span style='font-size:.9rem'>🥉</span>"
+            f"<span style='font-family:Share Tech Mono,monospace;font-weight:700;color:{p3c};font-size:.95rem'>{p3}</span>"
+            f"<span style='font-size:.68rem;color:#5a5a7a'>{p3t}</span></div>"
+            "<div style='border-top:1px solid #1e1e2e;margin-top:.4rem;padding-top:.4rem;"
+            "font-size:.78rem;color:#7a7a9a'>"
+            "⚡ <span style='color:#a020f0;font-weight:700'>FL</span>"
+            f"&nbsp;{fl}"
+            f"<span style='font-family:Share Tech Mono,monospace;color:#fff;margin-left:.3rem'>{flt}</span>"
+            "</div></div>"
+        )
+        st.markdown(html, unsafe_allow_html=True)
 
     elif status in ("next", "upcoming"):
-        st.markdown(f"""
-        <div style="text-align:center;padding:.8rem;color:#4a4a6a;font-size:.8rem;margin-top:.5rem">
-            🏎️ &nbsp; Resultado disponível após a corrida
-            {"<br><br><span style='background:#e10600;color:#fff;font-size:.65rem;font-weight:700;padding:2px 10px;border-radius:8px'>NEXT RACE</span>" if status == "next" else ""}
-        </div>
-        """, unsafe_allow_html=True)
+        next_badge = ("<br><br><span style='background:#e10600;color:#fff;font-size:.65rem;"
+                      "font-weight:700;padding:2px 10px;border-radius:8px'>NEXT RACE</span>"
+                      if status == "next" else "")
+        st.markdown(
+            f"<div style='text-align:center;padding:.8rem;color:#4a4a6a;font-size:.8rem;margin-top:.5rem'>"
+            f"🏎️ &nbsp; Resultado disponível após a corrida{next_badge}</div>",
+            unsafe_allow_html=True,
+        )
