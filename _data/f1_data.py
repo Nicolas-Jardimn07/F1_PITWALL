@@ -2,30 +2,54 @@
 #  DATA — FastF1 loaders + OpenF1 live API
 # ─────────────────────────────────────────────────────────────────────────────
 import os
+import sys
 import asyncio
+import threading
 import fastf1
 import requests
 import streamlit as st
-
-# Fix para Python 3.14+ onde o event loop do asyncio mudou
-try:
-    import nest_asyncio
-    nest_asyncio.apply()
-except ImportError:
-    pass
-
-# Workaround adicional para Python 3.14 asyncio
-try:
-    loop = asyncio.get_event_loop()
-except RuntimeError:
-    loop = asyncio.new_event_loop()
-    asyncio.set_event_loop(loop)
 
 CACHE_DIR   = "./f1_cache_local"
 OPENF1_BASE = "https://api.openf1.org/v1"
 
 os.makedirs(CACHE_DIR, exist_ok=True)
 fastf1.Cache.enable_cache(CACHE_DIR)
+
+
+def _load_in_thread(year: int, gp: str, stype: str):
+    """
+    Roda sess.load() em uma thread separada com seu próprio event loop.
+    Workaround para Python 3.14 onde o asyncio mudou e quebra o FastF1.
+    """
+    result = {"sess": None, "error": None}
+
+    def worker():
+        # Cria um novo event loop isolado para esta thread
+        loop = asyncio.new_event_loop()
+        asyncio.set_event_loop(loop)
+        try:
+            sess = fastf1.get_session(year, gp, stype)
+            sess.load(telemetry=True, weather=True, messages=False)
+            result["sess"] = sess
+        except Exception as e:
+            result["error"] = e
+        finally:
+            loop.close()
+
+    t = threading.Thread(target=worker)
+    t.start()
+    t.join(timeout=120)  # timeout de 2 minutos
+
+    if t.is_alive():
+        raise RuntimeError("Timeout ao carregar sessão (>2 min). Tente novamente.")
+
+    if result["error"]:
+        raise result["error"]
+
+    if result["sess"] is None:
+        raise RuntimeError("Sessão não carregada — resultado vazio.")
+
+    return result["sess"]
 
 
 # ─────────────────────────────────────────────────────────────────────────────
@@ -36,6 +60,7 @@ def load_session_f1(year: int, gp: str, stype: str):
     """Carrega e retorna uma Session FastF1 completa."""
     cache_key = f"f1sess_{year}_{gp}_{stype}"
 
+    # Já no session_state e válida?
     if cache_key in st.session_state:
         sess = st.session_state[cache_key]
         try:
@@ -44,8 +69,8 @@ def load_session_f1(year: int, gp: str, stype: str):
         except Exception:
             del st.session_state[cache_key]
 
-    sess = fastf1.get_session(year, gp, stype)
-    sess.load(telemetry=True, weather=True, messages=False)
+    # Carrega em thread separada (fix Python 3.14)
+    sess = _load_in_thread(year, gp, stype)
     st.session_state[cache_key] = sess
     return sess
 
