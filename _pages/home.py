@@ -404,16 +404,65 @@ def render():
 
     # ── Calendário clicável
     st.markdown("### 📅 2026 Season Calendar")
-    st.caption("Clique no GP para ver horários (horário de Brasília — BRT) e resultado")
+    st.caption("Clique em qualquer GP para ver os horários (🇧🇷 BRT) e resultado")
+
+    if "selected_gp" not in st.session_state:
+        st.session_state.selected_gp = None
 
     cal_cols = st.columns(4)
     for i, (rnd, name, circuit, date_str, status, is_sprint) in enumerate(_cal):
-        sprint_label = " ★S" if is_sprint else ""
-        status_icon  = " ✓" if status == "done" else " ▶" if status == "next" else ""
-        label = f"R{rnd:02d} · {name}{sprint_label}{status_icon}"
+        border   = "#e10600" if status == "next" else "#2a2a3a" if status == "done" else "#1e1e30"
+        bg       = "#0d0d18" if status == "next" else "#08080e" if status == "done" else "#0a0a14"
+        faded    = "opacity:.45;" if status == "done" else ""
+        selected = st.session_state.selected_gp == name
+        sel_style = "border:2px solid #e10600;" if selected else f"border:1px solid {border};"
+        next_badge = (
+            ' <span style="background:#e10600;color:#fff;font-size:.44rem;font-weight:700;'
+            'padding:1px 5px;border-radius:6px;">NEXT</span>'
+            if status == "next" else
+            ' <span style="color:#3a3a5a;font-size:.6rem">✓</span>'
+            if status == "done" else ""
+        )
+        sprint_badge = (
+            ' <span style="background:rgba(255,215,0,.12);color:#ffd700;font-size:.42rem;'
+            'font-weight:700;padding:1px 4px;border-radius:5px;">★ S</span>'
+            if is_sprint else ""
+        )
         with cal_cols[i % 4]:
-            with st.expander(label, expanded=False):
-                _render_gp_detail_inline(name, status, date_str, circuit)
+            if st.button(
+                f"R{rnd:02d} · {name}",
+                key=f"gp_{rnd}",
+                use_container_width=True,
+                help=f"Ver sessões de {name}",
+            ):
+                st.session_state.selected_gp = None if selected else name
+                st.rerun()
+
+            st.markdown(f"""
+            <div style="background:{bg};{sel_style}border-radius:0 0 8px 8px;
+                        padding:.4rem .7rem .5rem;margin-top:-8px;{faded}">
+                <div style="font-size:.58rem;color:#6a6a8a;font-family:Share Tech Mono,monospace">{date_str}</div>
+                <div style="font-size:.72rem;font-weight:600;color:#c8c8d8;margin:.1rem 0">
+                    {circuit}{next_badge}{sprint_badge}
+                </div>
+            </div>
+            """, unsafe_allow_html=True)
+
+    # ── Painel de detalhes abaixo do calendário
+    if st.session_state.selected_gp:
+        st.markdown("---")
+        gp_info = next((r for r in _cal if r[1] == st.session_state.selected_gp), None)
+        if gp_info:
+            rnd, name, circuit, date_str, status, is_sprint = gp_info
+            col_title, col_close = st.columns([10, 1])
+            with col_title:
+                st.markdown(f"### 📋 {name} — Round {rnd}")
+                st.caption(f"📍 {circuit} · 📅 {date_str} · 🇧🇷 Horário de Brasília")
+            with col_close:
+                if st.button("✕", key="close_gp"):
+                    st.session_state.selected_gp = None
+                    st.rerun()
+            _render_gp_detail_inline(name, status, date_str, circuit)
 
 
 
