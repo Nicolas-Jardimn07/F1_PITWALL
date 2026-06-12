@@ -71,35 +71,80 @@ def get_drivers_openf1(session_key: int) -> list:
 def get_fastest_lap_telemetry(session_key: int, driver: str) -> pd.DataFrame | None:
     """
     Busca a telemetria da volta mais rápida de um driver via OpenF1.
-    Retorna DataFrame com Speed, Throttle, Brake, nGear, DRS, Distance.
+    Filtra car_data pelo timestamp da volta (date_gt / date_lt).
     """
-    # 1. Acha o número do driver
-    drivers = _get("drivers", {"session_key": session_key})
-    drv_num = next((d["driver_number"] for d in drivers
+    # 1. Número do driver
+    drivers_data = _get("drivers", {"session_key": session_key})
+    drv_num = next((d["driver_number"] for d in drivers_data
                     if d.get("name_acronym") == driver), None)
     if not drv_num:
         return None
 
-    # 2. Acha a volta mais rápida
+    # 2. Volta mais rápida
     laps = _get("laps", {"session_key": session_key, "driver_number": drv_num})
     if not laps:
         return None
 
     laps_df = pd.DataFrame(laps)
-    laps_df = laps_df[laps_df["lap_duration"].notna()]
+    laps_df = laps_df[laps_df["lap_duration"].notna()].copy()
     if laps_df.empty:
         return None
 
-    fastest = laps_df.loc[laps_df["lap_duration"].idxmin()]
-    lap_num = int(fastest["lap_number"])
+    fastest  = laps_df.loc[laps_df["lap_duration"].idxmin()]
+    lap_num  = int(fastest["lap_number"])
     lap_time = float(fastest["lap_duration"])
 
-    # 3. Busca telemetria desta volta
+    # 3. Timestamps de início e fim da volta
+    # date_start = quando a volta começou
+    # Calcula date_end = date_start + lap_duration
+    date_start_raw = fastest.get("date_start") or fastest.get("lap_start_time")
+    if not date_start_raw:
+        # Fallback: usa a data da volta anterior como início
+        prev = laps_df[laps_df["lap_number"] == lap_num - 1]
+        if prev.empty:
+            return None
+        date_start_raw = prev.iloc[0].get("date_start") or prev.iloc[0].get("lap_start_time")
+
+    if not date_start_raw:
+        return None
+
+    # Converte para datetime e calcula fim
+    from datetime import datetime, timedelta, timezone
+    try:
+        # Remove timezone info para simplicidade
+        ds = str(date_start_raw).replace("Z", "+00:00")
+        dt_start = datetime.fromisoformat(ds)
+        dt_end   = dt_start + timedelta(seconds=lap_time + 1)  # +1s margem
+        date_gt  = dt_start.isoformat()
+        date_lt  = dt_end.isoformat()
+    except Exception:
+        return None
+
+    # 4. Busca telemetria pelo intervalo de tempo
     car_data = _get("car_data", {
-        "session_key": session_key,
+        "session_key":   session_key,
         "driver_number": drv_num,
-        "lap_number": lap_num,
+        "date>":         date_gt,
+        "date<":         date_lt,
     })
+
+    # Fallback: se não retornou nada, tenta sem filtro de data e filtra localmente
+    if not car_data:
+        car_data = _get("car_data", {
+            "session_key":   session_key,
+            "driver_number": drv_num,
+        })
+        if car_data:
+            df_all = pd.DataFrame(car_data)
+            df_all["_dt"] = pd.to_datetime(df_all["date"], utc=True, errors="coerce")
+            try:
+                ts = pd.Timestamp(date_gt).tz_localize("UTC") if pd.Timestamp(date_gt).tzinfo is None else pd.Timestamp(date_gt)
+                te = pd.Timestamp(date_lt).tz_localize("UTC") if pd.Timestamp(date_lt).tzinfo is None else pd.Timestamp(date_lt)
+                df_all = df_all[(df_all["_dt"] >= ts) & (df_all["_dt"] <= te)]
+            except Exception:
+                pass
+            car_data = df_all.drop(columns=["_dt"], errors="ignore").to_dict("records")
+
     if not car_data:
         return None
 
@@ -107,7 +152,7 @@ def get_fastest_lap_telemetry(session_key: int, driver: str) -> pd.DataFrame | N
     if df.empty:
         return None
 
-    # Renomeia colunas para compatibilidade com os gráficos existentes
+    # 5. Renomeia colunas
     df = df.rename(columns={
         "speed":    "Speed",
         "throttle": "Throttle",
@@ -117,7 +162,7 @@ def get_fastest_lap_telemetry(session_key: int, driver: str) -> pd.DataFrame | N
         "rpm":      "RPM",
     })
 
-    # Calcula distância a partir do índice (aprox.)
+    # 6. Limpa e calcula distância
     df = df.sort_values("date").reset_index(drop=True)
     df["Throttle"] = pd.to_numeric(df["Throttle"], errors="coerce").fillna(0)
     df["Brake"]    = pd.to_numeric(df["Brake"],    errors="coerce").fillna(0).astype(bool)
@@ -125,13 +170,11 @@ def get_fastest_lap_telemetry(session_key: int, driver: str) -> pd.DataFrame | N
     df["Speed"]    = pd.to_numeric(df["Speed"],    errors="coerce").fillna(0)
     df["DRS"]      = pd.to_numeric(df["DRS"],      errors="coerce").fillna(0)
 
-    # Estima distância pela velocidade e intervalo de tempo
-    df["Time"] = pd.to_datetime(df["date"])
-    df["dt"]   = df["Time"].diff().dt.total_seconds().fillna(0.27)
+    df["_time"] = pd.to_datetime(df["date"], errors="coerce")
+    df["dt"]    = df["_time"].diff().dt.total_seconds().fillna(0.27)
     df["Distance"] = (df["Speed"] / 3.6 * df["dt"]).cumsum()
 
-    # Guarda lap_time para métricas
-    df.attrs["lap_time"]  = lap_time
+    df.attrs["lap_time"]   = lap_time
     df.attrs["lap_number"] = lap_num
 
     return df
