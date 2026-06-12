@@ -30,13 +30,15 @@ def render(year: int, gp_name: str, session_type: str, session_code: str, analyz
     if analyze:
         with st.spinner(f"⏳ Carregando {gp_name} {year} — {session_type}... (pode levar alguns minutos)"):
             try:
-                # load_session_f1 usa st.session_state internamente como cache
                 sess = load_session_f1(year, gp_name, session_code)
                 drivers_list = get_driver_list(sess)
                 st.session_state.drivers = drivers_list
                 st.success(f"✅ Sessão carregada — {len(drivers_list)} pilotos disponíveis.")
             except Exception as e:
-                st.error(f"❌ Falha ao carregar sessão: {e}")
+                import traceback
+                st.error(f"❌ Falha ao carregar sessão:")
+                st.code(str(e), language="text")
+                st.expander("🔍 Traceback completo").code(traceback.format_exc(), language="text")
                 return
 
     # ── Verifica se a sessão está disponível (via session_state interno do f1_data)

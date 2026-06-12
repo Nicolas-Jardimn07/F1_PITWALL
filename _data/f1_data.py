@@ -1,59 +1,81 @@
-
 # ─────────────────────────────────────────────────────────────────────────────
 #  DATA — FastF1 loaders + OpenF1 live API
 # ─────────────────────────────────────────────────────────────────────────────
 import os
+import traceback
 import fastf1
 import requests
 import streamlit as st
- 
+
 CACHE_DIR   = "./f1_cache_local"
 OPENF1_BASE = "https://api.openf1.org/v1"
- 
+
 os.makedirs(CACHE_DIR, exist_ok=True)
 fastf1.Cache.enable_cache(CACHE_DIR)
- 
- 
+
+
 # ─────────────────────────────────────────────────────────────────────────────
 #  FastF1 — Historical
-#  Sessão guardada no st.session_state para evitar problemas de serialização
-#  com cache_data / cache_resource no Streamlit Cloud.
 # ─────────────────────────────────────────────────────────────────────────────
- 
+
 def load_session_f1(year: int, gp: str, stype: str):
     """
-    Carrega uma Session FastF1 e guarda no session_state.
-    Retorna a sessão já carregada.
+    Carrega uma Session FastF1.
+    Guarda no st.session_state para evitar recarregar.
     """
     cache_key = f"f1sess_{year}_{gp}_{stype}"
- 
-    # Já carregada e validada? Retorna direto.
+
+    # Já carregada? Testa se os dados ainda estão válidos
     if cache_key in st.session_state:
         sess = st.session_state[cache_key]
-        # Verifica se os dados ainda estão disponíveis
         try:
-            _ = sess.laps
+            _ = len(sess.laps)  # força acesso aos dados
             return sess
         except Exception:
-            pass  # Dados perdidos — recarrega abaixo
- 
-    # Carrega do FastF1
-    sess = fastf1.get_session(year, gp, stype)
-    sess.load(telemetry=True, weather=True, messages=False)
+            del st.session_state[cache_key]  # dados inválidos, recarrega
+
+    # Carrega do zero
+    try:
+        sess = fastf1.get_session(year, gp, stype)
+    except Exception as e:
+        raise RuntimeError(f"get_session falhou: {e}\n{traceback.format_exc()}")
+
+    try:
+        sess.load(telemetry=True, weather=True, messages=False)
+    except Exception as e:
+        raise RuntimeError(f"sess.load() falhou: {e}\n{traceback.format_exc()}")
+
+    # Verifica se os dados foram realmente carregados
+    try:
+        n = len(sess.laps)
+        if n == 0:
+            raise RuntimeError("Sessão carregada mas sem voltas (laps vazio).")
+    except Exception as e:
+        raise RuntimeError(f"Verificação pós-load falhou: {e}\n{traceback.format_exc()}")
+
     st.session_state[cache_key] = sess
     return sess
- 
- 
+
+
 def get_driver_list(sess) -> list:
-    return sorted(sess.laps["Driver"].unique().tolist())
- 
- 
+    try:
+        drivers = sorted(sess.laps["Driver"].unique().tolist())
+        if not drivers:
+            raise RuntimeError("Lista de pilotos vazia.")
+        return drivers
+    except Exception as e:
+        raise RuntimeError(f"get_driver_list falhou: {e}") from e
+
+
 def get_telemetry(sess, driver: str):
-    lap = sess.laps.pick_drivers(driver).pick_fastest()
-    tel = lap.get_telemetry().add_distance()
-    return tel, lap
- 
- 
+    try:
+        lap = sess.laps.pick_drivers(driver).pick_fastest()
+        tel = lap.get_telemetry().add_distance()
+        return tel, lap
+    except Exception as e:
+        raise RuntimeError(f"get_telemetry falhou para {driver}: {e}") from e
+
+
 def get_all_telemetry(sess, drivers: tuple) -> dict:
     result = {}
     for drv in drivers:
@@ -65,12 +87,12 @@ def get_all_telemetry(sess, drivers: tuple) -> dict:
         except Exception:
             pass
     return result
- 
- 
+
+
 # ─────────────────────────────────────────────────────────────────────────────
 #  OpenF1 — Live
 # ─────────────────────────────────────────────────────────────────────────────
- 
+
 def openf1_get(endpoint: str, params: dict = None, timeout: int = 8) -> list:
     try:
         r = requests.get(
@@ -82,12 +104,12 @@ def openf1_get(endpoint: str, params: dict = None, timeout: int = 8) -> list:
         return r.json() or []
     except Exception:
         return []
- 
- 
+
+
 def of1_session() -> dict | None:
     d = openf1_get("sessions", {"session_key": "latest"})
     return d[0] if d else None
- 
+
 def of1_positions(sk)  -> list: return openf1_get("position",     {"session_key": sk, "date": "latest"})
 def of1_intervals(sk)  -> list: return openf1_get("intervals",    {"session_key": sk, "date": "latest"})
 def of1_drivers(sk)    -> list: return openf1_get("drivers",      {"session_key": sk})
@@ -96,11 +118,10 @@ def of1_pits(sk)       -> list: return openf1_get("pit",          {"session_key"
 def of1_rc(sk)         -> list: return openf1_get("race_control", {"session_key": sk})
 def of1_stints(sk)     -> list: return openf1_get("stints",       {"session_key": sk})
 def of1_team_radio(sk) -> list: return openf1_get("team_radio",   {"session_key": sk})
- 
+
 def of1_car(sk, num) -> list:
     return openf1_get("car_data", {"session_key": sk, "driver_number": num, "date": "latest"})
- 
+
 def of1_weather(sk) -> dict | None:
     d = openf1_get("weather", {"session_key": sk, "date": "latest"})
     return d[0] if d else None
- 
