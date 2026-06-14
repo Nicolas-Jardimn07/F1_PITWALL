@@ -18,7 +18,7 @@ GP_DETAILS = {
             ("Qualifying", "Sáb 15 Mar", "05:00"),
             ("Race",       "Dom 16 Mar", "01:00"),
         ],
-        "result": {"winner": "ANT", "p2": "RUS", "p3": "NOR", "fl": "ANT", "fl_time": "1:17.456"},
+        "result": {"winner": "RUS", "p2": "ANT", "p3": "LEC", "fl": "ANT", "fl_time": "1:17.456"},
     },
     "Chinese GP": {
         "sessions": [

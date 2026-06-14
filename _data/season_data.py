@@ -31,7 +31,11 @@ def _ergast_get(path: str, timeout: int = 8) -> dict:
 
 @st.cache_data(ttl=3600, show_spinner=False)
 def fetch_driver_standings(year: int = CURRENT_YEAR) -> list:
-    """Returns list of (pos, code, team, points, wins)."""
+    """Returns list of (pos, code, team, points, wins).
+    Para 2026 usa sempre o fallback manual (Ergast não tem dados confiáveis ainda).
+    """
+    if year == CURRENT_YEAR:
+        return _fallback_driver_standings()
     data = _ergast_get(f"{year}/driverStandings")
     try:
         table = data["MRData"]["StandingsTable"]["StandingsLists"][0]["DriverStandings"]
@@ -51,7 +55,11 @@ def fetch_driver_standings(year: int = CURRENT_YEAR) -> list:
 
 @st.cache_data(ttl=3600, show_spinner=False)
 def fetch_constructor_standings(year: int = CURRENT_YEAR) -> list:
-    """Returns list of (pos, team, points, color)."""
+    """Returns list of (pos, team, points, color).
+    Para 2026 usa sempre o fallback manual (Ergast não tem dados confiáveis ainda).
+    """
+    if year == CURRENT_YEAR:
+        return _fallback_constructor_standings()
     data = _ergast_get(f"{year}/constructorStandings")
     try:
         table = data["MRData"]["StandingsTable"]["StandingsLists"][0]["ConstructorStandings"]
@@ -156,7 +164,7 @@ def _fallback_driver_standings() -> list:
     return [
         (1,  "ANT", "Mercedes",      156, 5),
         (2,  "HAM", "Ferrari",       115, 1),
-        (3,  "RUS", "Mercedes",      106, 0),
+        (3,  "RUS", "Mercedes",      106, 1),
         (4,  "NOR", "McLaren",        73, 0),
         (5,  "LEC", "Ferrari",        75, 0),
         (6,  "PIA", "McLaren",        70, 0),
