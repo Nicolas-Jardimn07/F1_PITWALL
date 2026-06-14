@@ -5,7 +5,7 @@
 import requests
 import streamlit as st
 from datetime import datetime, timezone
-from utils.constants import TEAM_COLOR_MAP, SPRINT_ROUNDS_2026
+from _utils.constants import TEAM_COLOR_MAP, SPRINT_ROUNDS_2026
 
 ERGAST_BASE  = "https://ergast.com/api/f1"
 CURRENT_YEAR = 2026
