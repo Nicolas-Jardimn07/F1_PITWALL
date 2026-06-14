@@ -5,7 +5,7 @@
 import requests
 import streamlit as st
 from datetime import datetime, timezone
-from _utils.constants import TEAM_COLOR_MAP, SPRINT_ROUNDS_2026
+from utils.constants import TEAM_COLOR_MAP, SPRINT_ROUNDS_2026
 
 ERGAST_BASE  = "https://ergast.com/api/f1"
 CURRENT_YEAR = 2026
@@ -155,11 +155,11 @@ def get_season_data() -> tuple:
 def _fallback_driver_standings() -> list:
     return [
         (1,  "ANT", "Mercedes",      156, 5),
-        (2,  "HAM", "Ferrari",        90, 0),
-        (3,  "RUS", "Mercedes",       88, 0),
-        (4,  "LEC", "Ferrari",        75, 0),
-        (5,  "PIA", "McLaren",        60, 0),
-        (6,  "NOR", "McLaren",        58, 0),
+        (2,  "HAM", "Ferrari",       115, 1),
+        (3,  "RUS", "Mercedes",      106, 0),
+        (4,  "NOR", "McLaren",        73, 0),
+        (5,  "LEC", "Ferrari",        75, 0),
+        (6,  "PIA", "McLaren",        70, 0),
         (7,  "VER", "Red Bull",       43, 0),
         (8,  "HAD", "Red Bull",       29, 0),
         (9,  "LAW", "Racing Bulls",   26, 0),
@@ -177,9 +177,9 @@ def _fallback_driver_standings() -> list:
 
 def _fallback_constructor_standings() -> list:
     return [
-        (1,  "Mercedes",      244, "#27F4D2"),
-        (2,  "Ferrari",       165, "#E8002D"),
-        (3,  "McLaren",       118, "#FF8000"),
+        (1,  "Mercedes",      262, "#27F4D2"),
+        (2,  "Ferrari",       190, "#E8002D"),
+        (3,  "McLaren",       143, "#FF8000"),
         (4,  "Red Bull",       72, "#3671C6"),
         (5,  "Alpine",         41, "#2293D1"),
         (6,  "Racing Bulls",   39, "#6692FF"),
@@ -198,8 +198,8 @@ def _fallback_calendar() -> list:
         (4,  "Miami GP",         "Miami International Autodrome", "2026-05-03", "done",     True),
         (5,  "Canadian GP",      "Circuit Gilles-Villeneuve",     "2026-05-24", "done",     True),
         (6,  "Monaco GP",        "Circuit de Monaco",             "2026-06-07", "done",     False),
-        (7,  "Barcelona GP",     "Circuit de Barcelona-Catalunya","2026-06-14", "next",     False),
-        (8,  "Austrian GP",      "Red Bull Ring",                 "2026-06-28", "upcoming", False),
+        (7,  "Barcelona GP",     "Circuit de Barcelona-Catalunya","2026-06-14", "done",     False),
+        (8,  "Austrian GP",      "Red Bull Ring",                 "2026-06-28", "next",     False),
         (9,  "British GP",       "Silverstone",                   "2026-07-05", "upcoming", True),
         (10, "Belgian GP",       "Spa-Francorchamps",             "2026-07-19", "upcoming", False),
         (11, "Hungarian GP",     "Hungaroring",                   "2026-07-26", "upcoming", False),
@@ -219,13 +219,13 @@ def _fallback_calendar() -> list:
 
 def _fallback_last_race() -> dict:
     return {
-        "name":      "Monaco Grand Prix",
-        "circuit":   "Circuit de Monaco",
-        "date":      "2026-06-07",
-        "winner":    "ANT",
-        "p2":        "HAM",
-        "p3":        "HAD",
-        "fl":        "ANT",
-        "fl_time":   "1:12.803",
-        "highlight": "Antonelli 5th consecutive win. Hamilton P2. Hadjar P3 after Gasly penalty.",
+        "name":      "Barcelona Grand Prix",
+        "circuit":   "Circuit de Barcelona-Catalunya",
+        "date":      "2026-06-14",
+        "winner":    "HAM",
+        "p2":        "RUS",
+        "p3":        "NOR",
+        "fl":        "HAM",
+        "fl_time":   "1:20.122",
+        "highlight": "Hamilton's 1st Ferrari win! Pódio britânico. Antonelli DNF (motor) — diferença cai para 41 pts.",
     }

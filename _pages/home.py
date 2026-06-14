@@ -78,7 +78,7 @@ GP_DETAILS = {
             ("Qualifying", "Sáb 13 Jun", "11:00"),
             ("Race",       "Dom 14 Jun", "10:00"),
         ],
-        "result": None,
+        "result": {"winner": "HAM", "p2": "RUS", "p3": "NOR", "fl": "HAM", "fl_time": "1:20.122"},
     },
     "Austrian GP": {
         "sessions": [

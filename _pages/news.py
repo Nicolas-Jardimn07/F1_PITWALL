@@ -65,7 +65,7 @@ def _render_extras():
     # ── Standings
     st.markdown("---")
     st.markdown("## 🏆 Championship Standings — 2026")
-    st.caption(f"After Round 6: Monaco GP · {_lr['date']}")
+    st.caption(f"After Round 7: Barcelona GP · {_lr['date']}")
     sc1, sc2 = st.columns(2)
 
     with sc1:
@@ -107,7 +107,7 @@ def _render_extras():
 
     # ── Last race podium
     st.markdown("---")
-    st.markdown("## 🏁 Last Race — Monaco GP")
+    st.markdown("## 🏁 Last Race — Barcelona GP")
     lr     = _lr
     podium = [
         (lr["winner"], "🥇 P1", DRIVER_COLORS.get(lr["winner"], "#ffd700")),
