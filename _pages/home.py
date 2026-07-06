@@ -88,7 +88,7 @@ GP_DETAILS = {
             ("Qualifying", "Sáb 27 Jun", "11:00"),
             ("Race",       "Dom 28 Jun", "10:00"),
         ],
-        "result": None,
+        "result": {"winner": "RUS", "p2": "NOR", "p3": "HAM", "fl": "NOR", "fl_time": "1:06.983"},
     },
     "British GP": {
         "sessions": [
@@ -98,7 +98,7 @@ GP_DETAILS = {
             ("Qualifying",   "Sáb 04 Jul", "12:00"),
             ("Race",         "Dom 05 Jul", "11:00"),
         ],
-        "result": None,
+        "result": {"winner": "LEC", "p2": "RUS", "p3": "HAM", "fl": "LEC", "fl_time": "1:26.384"},
     },
     "Belgian GP": {
         "sessions": [
