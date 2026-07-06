@@ -162,16 +162,16 @@ def get_season_data() -> tuple:
 
 def _fallback_driver_standings() -> list:
     return [
-        (1,  "ANT", "Mercedes",      156, 5),
-        (2,  "HAM", "Ferrari",       115, 1),
-        (3,  "RUS", "Mercedes",      106, 1),
-        (4,  "NOR", "McLaren",        73, 0),
-        (5,  "LEC", "Ferrari",        75, 0),
-        (6,  "PIA", "McLaren",        70, 0),
+        (1,  "ANT", "Mercedes",      179, 5),
+        (2,  "RUS", "Mercedes",      154, 1),
+        (3,  "HAM", "Ferrari",       147, 1),
+        (4,  "LEC", "Ferrari",       108, 1),
+        (5,  "NOR", "McLaren",        88, 0),
+        (6,  "PIA", "McLaren",        72, 0),
         (7,  "VER", "Red Bull",       43, 0),
-        (8,  "HAD", "Red Bull",       29, 0),
-        (9,  "LAW", "Racing Bulls",   26, 0),
-        (10, "GAS", "Alpine",         26, 0),
+        (8,  "HAD", "Red Bull",       41, 0),
+        (9,  "LAW", "Racing Bulls",   38, 0),
+        (10, "GAS", "Alpine",         34, 0),
         (11, "BEA", "Haas",           18, 0),
         (12, "COL", "Alpine",         15, 0),
         (13, "LIN", "Racing Bulls",   13, 0),
@@ -185,12 +185,12 @@ def _fallback_driver_standings() -> list:
 
 def _fallback_constructor_standings() -> list:
     return [
-        (1,  "Mercedes",      262, "#27F4D2"),
-        (2,  "Ferrari",       190, "#E8002D"),
-        (3,  "McLaren",       143, "#FF8000"),
-        (4,  "Red Bull",       72, "#3671C6"),
-        (5,  "Alpine",         41, "#2293D1"),
-        (6,  "Racing Bulls",   39, "#6692FF"),
+        (1,  "Mercedes",      333, "#27F4D2"),
+        (2,  "Ferrari",       255, "#E8002D"),
+        (3,  "McLaren",       179, "#FF8000"),
+        (4,  "Red Bull",      128, "#3671C6"),
+        (5,  "Alpine",         60, "#2293D1"),
+        (6,  "Racing Bulls",   59, "#6692FF"),
         (7,  "Haas",           21, "#B6BABD"),
         (8,  "Williams",       11, "#64C4FF"),
         (9,  "Audi",            2, "#D4AF37"),
@@ -227,13 +227,13 @@ def _fallback_calendar() -> list:
 
 def _fallback_last_race() -> dict:
     return {
-        "name":      "Barcelona Grand Prix",
-        "circuit":   "Circuit de Barcelona-Catalunya",
-        "date":      "2026-06-14",
-        "winner":    "HAM",
+        "name":      "British Grand Prix",
+        "circuit":   "Silverstone Circuit",
+        "date":      "2026-07-05",
+        "winner":    "LEC",
         "p2":        "RUS",
-        "p3":        "NOR",
-        "fl":        "HAM",
-        "fl_time":   "1:20.122",
-        "highlight": "Hamilton's 1st Ferrari win! Pódio britânico. Antonelli DNF (motor) — diferença cai para 41 pts.",
+        "p3":        "HAM",
+        "fl":        "LEC",
+        "fl_time":   "1:26.384",
+        "highlight": "Leclerc 1ª vitória em 2026. Antonelli DNF (wheel shield) cai para P16. Gap cai para 25 pts.",
     }
